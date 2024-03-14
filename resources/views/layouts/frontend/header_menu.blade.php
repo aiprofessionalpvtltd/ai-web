@@ -31,7 +31,9 @@
                     </ul>
                     <!-- Social Box -->
                     <ul class="social-box">
-                        <li><a href="https://www.linkedin.com/company/ai-professionals-private-limited/" class="fa fa-linkedin-square" target="_blank"></a></li>
+                        <li>
+                            <a href="https://www.linkedin.com/company/ai-professionals-private-limited/"  target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </li>
                     </ul>
                 </div>
             </div>
