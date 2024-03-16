@@ -769,3 +769,29 @@
     </section>
 
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+
+            mixitup('#mix-wrapper', {
+                load: {
+                    sort: 'order:asc'
+                },
+                animation: {
+                    effects: 'fade scale(1)',
+                    duration: 700
+                },
+                classNames: {
+                    block: 'programs',
+                    elementFilter: 'filter-btn',
+                    elementSort: 'sort-btn'
+                },
+                selectors: {
+                    target: '.mix-target'
+                }
+            });
+
+        });
+    </script>
+@endpush

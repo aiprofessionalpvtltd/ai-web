@@ -19,27 +19,4 @@
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/mixitup.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-
-        mixitup('#mix-wrapper', {
-            load: {
-                sort: 'order:asc'
-            },
-            animation: {
-                effects: 'fade scale(1)',
-                duration: 700
-            },
-            classNames: {
-                block: 'programs',
-                elementFilter: 'filter-btn',
-                elementSort: 'sort-btn'
-            },
-            selectors: {
-                target: '.mix-target'
-            }
-        });
-
-
-    });
-</script>
+@stack('script')

@@ -6,7 +6,8 @@
 
     <!--Page Title-->
     <section class="page-title">
-        <div class="pattern-layer-one" style="background-image: url({{asset('assets/frontend/images/background/pattern-16.png')}})"></div>
+        <div class="pattern-layer-one"
+             style="background-image: url({{asset('assets/frontend/images/background/pattern-16.png')}})"></div>
         <div class="auto-container">
             <h2>Contact us</h2>
             <ul class="page-breadcrumb">
@@ -102,28 +103,37 @@
             </div>
 
             <!-- Contact Form -->
-            <div class="contact-form">
+            <div id="contact-form-container" class="contact-form">
+
+                <div class="alert d-none" id="form-messages" role="alert">
+                    <span class="internal-text"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
                 <!-- Contact Form -->
-                <form method="post" action="sendemail.php" id="contact-form">
+                <form method="post" id="contact-form">
+                    @csrf
                     <div class="row clearfix">
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <label>Your name *</label>
-                            <input type="text" name="username" placeholder="" required />
+                            <input type="text" name="name" placeholder="" required/>
                         </div>
 
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <label>Email address *</label>
-                            <input type="text" name="email" placeholder="" required />
+                            <input type="text" name="email" placeholder="" required/>
                         </div>
 
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <label>Phone number *</label>
-                            <input type="text" name="phone" placeholder="" required />
+                            <input type="text" name="phone" placeholder="" required/>
                         </div>
 
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <label>Website</label>
-                            <input type="text" name="subject" placeholder="" required />
+                            <input type="text" name="website" placeholder=""/>
                         </div>
 
                         <div class="form-group col-lg-12 col-md-12 col-sm-12">
@@ -132,15 +142,68 @@
                         </div>
 
                         <div class="form-group text-center col-lg-12 col-md-12 col-sm-12">
-                            <button class="theme-btn btn-style-three" type="submit" name="submit-form">
-                                <span class="txt">Send Now</span>
+                            <button class="theme-btn btn-style-three send-btn" type="submit" name="submit-form">
+                                <span class="txt send-btn-txt">Send Now</span>
                             </button>
+
                         </div>
                     </div>
+
                 </form>
+
             </div>
             <!-- End Contact Form -->
         </div>
     </section>
     <!-- End Contact Map Section -->
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#contact-form').on('submit', function (e) {
+                e.preventDefault();
+
+                console.log('click')
+                // Change button text to indicate sending
+                $('.send-btn-txt').text('Sending...');
+
+                // Disable the button to prevent multiple submissions
+                $('.send-btn').prop('disabled', true);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route("contact.store") }}', // Replace with your route
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        $('.send-btn-txt').text('Send Now');
+                        $('.send-btn').prop('disabled', false);
+                        $('#form-messages').removeClass('d-none').removeClass('alert-danger').addClass('alert-success');
+                        $('.internal-text').text(response.message);
+                    },
+                    error: function (xhr, status, error) {
+                        $('.send-btn-txt').text('Send Now');
+                        $('.send-btn').prop('disabled', false);
+
+                        var response = JSON.parse(xhr.responseText);
+
+                        var errorsHtml = '<ul>';
+                        $.each(response.errors, function (key, value) {
+                            errorsHtml += '<li>' + value[0] + '</li>';
+                        });
+                        errorsHtml += '</ul>';
+
+                        $('#form-messages').removeClass('d-none').removeClass('alert-success').addClass('alert-danger');
+                        $('.internal-text').text(response.message);
+                    },
+                    complete: function () {
+                        $('.send-btn-txt').text('Send Now');
+                        $('.send-btn').prop('disabled', false);
+
+                    }
+                });
+            });
+
+        });
+    </script>
+@endpush
