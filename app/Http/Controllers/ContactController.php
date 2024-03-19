@@ -34,7 +34,7 @@ class ContactController extends Controller
 
             // If validation passes, proceed to send email
             $validatedData = $validator->validated();
-            Mail::to(env('mail_to_address'))->send(new ContactFormSubmitted($validatedData));
+            Mail::to(env('MAIL_TO_ADDRESS'))->send(new ContactFormSubmitted($validatedData));
 
             return response()->json(['message' => 'Contact form submitted successfully']);
         } catch (ValidationException $e) {
