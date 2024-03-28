@@ -42,7 +42,6 @@
                             <!-- Feature Block -->
                             <div class="feature-block">
                                 <div class="inner-box">
-                                    <i class="fas fa-glasses"></i>
                                     <div class="icon flaticon-award-1"></div>
                                     <h6>Vision</h6>
                                     <div class="feature-text">To create value through innovative solutions.</div>
